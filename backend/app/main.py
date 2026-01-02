@@ -29,13 +29,21 @@ logger.add(
     level=settings.log_level,
 )
 
-if settings.log_file:
-    logger.add(
-        settings.log_file,
-        rotation="1 day",
-        retention="30 days",
-        level=settings.log_level,
-    )
+# Only add file logging if LOG_FILE is specified and not empty
+if settings.log_file and settings.log_file.strip():
+    try:
+        import os
+        log_dir = os.path.dirname(settings.log_file)
+        if log_dir:
+            os.makedirs(log_dir, exist_ok=True)
+        logger.add(
+            settings.log_file,
+            rotation="1 day",
+            retention="30 days",
+            level=settings.log_level,
+        )
+    except Exception as e:
+        logger.warning(f"Could not set up file logging: {e}")
 
 
 @asynccontextmanager

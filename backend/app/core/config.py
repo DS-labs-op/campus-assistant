@@ -55,7 +55,7 @@ class Settings(BaseSettings):
 
     # Logging
     log_level: str = "INFO"
-    log_file: str = "./data/logs/chatbot.log"
+    log_file: Optional[str] = "./data/logs/chatbot.log"
 
     # Vector DB settings
     chroma_persist_directory: str = "./data/chroma"

@@ -3,9 +3,8 @@ services:
     name: campus-assistant-api
     env: python
     region: oregon
-    plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port ${PORT}
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -13,6 +12,16 @@ services:
         value: gemini
       - key: DEBUG
         value: false
+      - key: CORS_ORIGINS
+        value: https://campus-assistant-frontend.vercel.app
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LOG_FILE
+        value: ""
+      - key: DATABASE_URL
+        value: "sqlite+aiosqlite:////tmp/chatbot.db"
+      - key: CHROMA_PERSIST_DIRECTORY
+        value: "/tmp/chroma"
       - key: GOOGLE_API_KEY
         sync: false
       - key: SECRET_KEY
