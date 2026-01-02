@@ -24,8 +24,11 @@ COPY . .
 # Create data directories
 RUN mkdir -p data/logs data/chroma documents
 
+# Make start script executable
+RUN chmod +x start.sh
+
 # Expose port (Railway uses dynamic PORT)
 EXPOSE ${PORT:-8000}
 
-# Run the application - use shell form to expand $PORT environment variable
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Run the application via start script
+CMD ["./start.sh"]
