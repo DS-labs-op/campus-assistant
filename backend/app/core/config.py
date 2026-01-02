@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     secret_key: str = "change-this-in-production"
 
     # CORS
-    cors_origins: str = "http://localhost:3000,http://localhost:8000"
+    cors_origins: str = "http://localhost:3000,http://localhost:8000,https://campus-assistant-dslabs.vercel.app"
 
     @property
     def cors_origins_list(self) -> List[str]:
