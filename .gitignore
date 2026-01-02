@@ -24,6 +24,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# But allow frontend source lib
+!frontend/src/lib/
+
 # Virtual environments
 venv/
 ENV/
