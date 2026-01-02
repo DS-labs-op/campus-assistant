@@ -8,7 +8,9 @@
       "Bash(cat:*)",
       "Bash(curl:*)",
       "Bash(git reset:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(powershell -Command \"refreshenv; vercel whoami\")",
+      "Bash(powershell -Command \"refreshenv; cd ''F:\\\\Sahaj\\\\Projects\\\\SIH\\\\frontend''; vercel --prod --yes\")"
     ]
   }
 }
