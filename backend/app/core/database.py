@@ -2,6 +2,7 @@
 Database connection and session management.
 """
 
+import os
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.pool import StaticPool
@@ -11,6 +12,14 @@ from app.core.config import get_settings
 from app.models.database import Base
 
 settings = get_settings()
+
+# Ensure database directory exists for SQLite
+if "sqlite" in settings.database_url:
+    db_path = settings.database_url.replace("sqlite+aiosqlite:///", "")
+    db_dir = os.path.dirname(db_path)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+        logger.info(f"Ensured database directory exists: {db_dir}")
 
 
 # Create async engine
