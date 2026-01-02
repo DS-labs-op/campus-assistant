@@ -8,7 +8,6 @@ A **language-agnostic AI chatbot** for educational institutions that answers stu
 
 Campus offices answer hundreds of repetitive queries—fee deadlines, scholarship forms, timetable changes—often from students more comfortable in Hindi or other regional languages. This chatbot deflects routine inquiries, freeing staff for complex tasks while providing instant, accurate responses in the student's preferred language.
 
-
 ## 🌟 Key Highlights
 
 - **Google AI Powered**: Uses Google Gemini (gemini-2.5-flash) for intelligent responses
@@ -28,7 +27,19 @@ Campus offices answer hundreds of repetitive queries—fee deadlines, scholarshi
 - **Platform Integration**: Web widget, Telegram, WhatsApp
 - **Analytics Dashboard**: Conversation logs and usage metrics
 
+## 📸 Screenshots
+
+### Chat Interface
+
+![Chat Interface](images/chat-panel.png)
+
+### Admin Panel
+
+![Admin Panel](images/admin-panel.png)
+
 ## Architecture
+
+![Architecture Diagram](images/Architecture-diagram.png)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -58,6 +69,10 @@ Campus offices answer hundreds of repetitive queries—fee deadlines, scholarshi
 │  (PDFs, Circulars)│     (ChromaDB)      │      (SQLite)             │
 └───────────────────┴─────────────────────┴───────────────────────────┘
 ```
+
+## 🔄 Process Flow
+
+![Process Flow Diagram](images/Process-Flow-Diagram.png)
 
 ## 🛠️ Tech Stack (Google Technologies)
 
