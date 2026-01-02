@@ -134,9 +134,9 @@ curl -X POST "http://localhost:8000/api/v1/faqs/reindex"
 
 ### Access the Application
 
-- **Frontend**: http://localhost:3000
-- **API Docs**: http://localhost:8000/docs
-- **Admin Panel**: http://localhost:3000/admin
+- **Frontend**: <http://localhost:3000>
+- **API Docs**: <http://localhost:8000/docs>
+- **Admin Panel**: <http://localhost:3000/admin>
 - **Admin Credentials**: `admin` / `admin123`
 
 ## Configuration
@@ -154,17 +154,19 @@ curl -X POST "http://localhost:8000/api/v1/faqs/reindex"
 
 ### Getting API Keys
 
-1. **Google Gemini**: https://aistudio.google.com/app/apikey
+1. **Google Gemini**: <https://aistudio.google.com/app/apikey>
 2. **Telegram Bot**: Talk to @BotFather on Telegram
 
 ## API Endpoints
 
 ### Chat
+
 - `POST /api/v1/chat/` - Send message
 - `GET /api/v1/chat/welcome` - Get welcome message
 - `GET /api/v1/chat/languages` - List supported languages
 
 ### FAQs
+
 - `GET /api/v1/faqs/` - List FAQs
 - `POST /api/v1/faqs/` - Create FAQ
 - `POST /api/v1/faqs/bulk-import` - Bulk import FAQs
@@ -173,11 +175,13 @@ curl -X POST "http://localhost:8000/api/v1/faqs/reindex"
 - `DELETE /api/v1/faqs/{id}` - Delete FAQ
 
 ### Documents
+
 - `GET /api/v1/documents/` - List documents
 - `POST /api/v1/documents/upload` - Upload document
 - `DELETE /api/v1/documents/{id}` - Delete document
 
 ### Admin
+
 - `GET /api/v1/admin/dashboard` - Dashboard stats
 - `GET /api/v1/admin/analytics` - Analytics data
 - `GET /api/v1/admin/conversations` - Conversation logs
@@ -272,15 +276,18 @@ docker-compose up -d
 ## Maintenance Guide (For Volunteers)
 
 ### Daily Tasks
+
 - Check `/api/v1/admin/dashboard` for pending escalations
 - Review conversation logs for improvement opportunities
 
 ### Weekly Tasks
+
 - Export conversation logs for analysis
 - Update FAQs based on common queries
 - Check analytics for language usage trends
 
 ### Adding New FAQs
+
 1. Log in to admin panel
 2. Navigate to FAQs section
 3. Click "Add FAQ"
@@ -290,19 +297,23 @@ docker-compose up -d
 ### Troubleshooting
 
 **Bot not responding?**
+
 - Check `/api/v1/admin/health` endpoint
 - Verify Google API key is valid
 - Check backend logs in terminal
 
 **FAQs not appearing in chat responses?**
+
 - Reindex FAQs: `curl -X POST http://localhost:8000/api/v1/faqs/reindex`
 - Check vector store has documents: `/api/v1/admin/dashboard`
 
 **Translation not working?**
+
 - deep-translator uses Google Translate (free, no API keys)
 - Check network connectivity
 
 **Frontend crashes with memory error?**
+
 - Use production build: `npm run build && npm start`
 - Dev mode uses too much RAM
 
@@ -319,5 +330,6 @@ Built for **TechSprint 2025 - GDGOC Hackathon**
 ## Support
 
 For issues or questions:
+
 - Create a GitHub issue
-- Contact: sahajitaliya33@gmail.com
+- Contact: <sahajitaliya33@gmail.com>
