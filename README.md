@@ -7,7 +7,7 @@ A **language-agnostic AI chatbot** for educational institutions that answers stu
 ## 🎯 Problem Statement
 
 Campus offices answer hundreds of repetitive queries—fee deadlines, scholarship forms, timetable changes—often from students more comfortable in Hindi or other regional languages. This chatbot deflects routine inquiries, freeing staff for complex tasks while providing instant, accurate responses in the student's preferred language.
-hi
+
 
 ## 🌟 Key Highlights
 
