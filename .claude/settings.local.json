@@ -6,7 +6,9 @@
       "Bash(npm install)",
       "Bash(npm run dev)",
       "Bash(cat:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git reset:*)",
+      "Bash(git rm:*)"
     ]
   }
 }

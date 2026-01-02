@@ -1,6 +1,8 @@
-# SIH 2025 - Language Agnostic Chatbot Progress Report
+# TechSprint 2025 - Multilingual Campus Assistant
 
-**Problem Statement:** #25104 - Directorate of Technical Education, Rajasthan
+**Hackathon:** TechSprint - GDGOC 2025
+**Track:** EdTech
+**Team:** Valo Prophets
 **Last Updated:** 2026-01-02
 **Status:** ✅ FULLY FUNCTIONAL - Backend, Frontend, Knowledge Base Working
 
@@ -8,7 +10,7 @@
 
 ## Project Overview
 
-Building a **Language Agnostic Chatbot** for technical education institutions in Rajasthan with:
+Building a **Language Agnostic AI Chatbot** for educational institutions with:
 - Multilingual support (7+ Indian languages: Hindi, English, Gujarati, Marathi, Punjabi, Tamil, Bengali, Telugu, Kannada, Malayalam, Odia)
 - FAQ and PDF document ingestion
 - RAG-based Q&A with intent recognition
@@ -398,4 +400,7 @@ F:\Sahaj\Projects\SIH\
 
 ## Contact / Support
 
-For SIH 2025 submission and technical queries.
+**Team Valo Prophets** - TechSprint 2025 - GDGOC Hackathon
+
+GitHub: [@sahaj33-op](https://github.com/sahaj33-op)
+Email: sahajitaliya33@gmail.com

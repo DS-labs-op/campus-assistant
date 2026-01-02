@@ -1,10 +1,20 @@
-# Campus Assistant - Multilingual Chatbot
+# Campus Assistant - Multilingual AI Chatbot
 
-A **language-agnostic chatbot** for educational institutions that answers student queries in **7+ Indian languages** including Hindi, English, Gujarati, Marathi, Punjabi, Tamil, and Rajasthani.
+> 🏆 **TechSprint 2025 - GDGOC Hackathon** | Track: EdTech | Team: Valo Prophets
 
-## Problem Statement (SIH 2025 - #25104)
+A **language-agnostic AI chatbot** for educational institutions that answers student queries in **7+ Indian languages** including Hindi, English, Gujarati, Marathi, Punjabi, Tamil, and Rajasthani. Built with Google Gemini AI.
 
-Campus offices answer hundreds of repetitive queries—fee deadlines, scholarship forms, timetable changes—often from students more comfortable in Hindi or other regional languages. This chatbot deflects routine inquiries, freeing staff for complex tasks.
+## 🎯 Problem Statement
+
+Campus offices answer hundreds of repetitive queries—fee deadlines, scholarship forms, timetable changes—often from students more comfortable in Hindi or other regional languages. This chatbot deflects routine inquiries, freeing staff for complex tasks while providing instant, accurate responses in the student's preferred language.
+
+## 🌟 Key Highlights
+
+- **Google AI Powered**: Uses Google Gemini (gemini-1.5-flash) for intelligent responses
+- **Truly Multilingual**: 7+ Indian languages with automatic translation
+- **RAG Technology**: Retrieval Augmented Generation for accurate, context-aware answers
+- **Easy to Deploy**: Docker-ready, works on low-resource servers
+- **Zero Translation Cost**: Uses free Google Translate via deep-translator
 
 ## Features
 
@@ -48,7 +58,7 @@ Campus offices answer hundreds of repetitive queries—fee deadlines, scholarshi
 └───────────────────┴─────────────────────┴──────────────────────────┘
 ```
 
-## Tech Stack
+## 🛠️ Tech Stack (Google Technologies)
 
 | Component | Technology |
 |-----------|------------|
@@ -300,12 +310,11 @@ docker-compose up -d
 
 MIT License - Free to use for educational purposes.
 
-## Contributing
+## 👥 Team Valo Prophets
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+Built for **TechSprint 2025 - GDGOC Hackathon**
+
+**GitHub**: [@sahaj33-op](https://github.com/sahaj33-op)
 
 ## Support
 
