@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
 
+// Mock scrollIntoView (not implemented in jsdom)
+Element.prototype.scrollIntoView = jest.fn();
+
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -10,6 +13,23 @@ jest.mock('next/navigation', () => ({
   }),
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
+}));
+
+// Mock hooks used by ChatInterface
+jest.mock('@/hooks/useChat', () => ({
+  useChat: () => ({
+    messages: [],
+    isLoading: false,
+    sendMessage: jest.fn(),
+    suggestions: [],
+  }),
+}));
+
+jest.mock('@/hooks/useLanguage', () => ({
+  useLanguage: () => ({
+    language: 'en',
+    setLanguage: jest.fn(),
+  }),
 }));
 
 // Mock environment variables
