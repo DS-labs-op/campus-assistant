@@ -1,58 +1,96 @@
 """
 Admin API Routes.
 Dashboard, analytics, and administration endpoints.
+
+SECURITY: Uses bcrypt for password verification.
+Admin password hash must be set via ADMIN_PASSWORD_HASH environment variable.
 """
 
+import secrets
 from datetime import datetime, timedelta
 from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from loguru import logger
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
-import secrets
 
 from app.core.config import get_settings
 from app.core.database import get_db
+from app.core.security import get_password_hash, verify_password
 from app.models.database import (
-    Session,
-    Message,
-    FAQ,
+    ConversationLog,
     Document,
     Escalation,
-    ConversationLog,
     EscalationStatus,
+    FAQ,
     Feedback,
+    Message,
+    Session,
 )
 from app.models.schemas import (
     AnalyticsSummary,
     EscalationCreate,
-    EscalationUpdate,
     EscalationResponse,
+    EscalationUpdate,
 )
-from app.services.vector_store import get_vector_store
 from app.services.session_manager import get_session_manager
+from app.services.vector_store import get_vector_store
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 security = HTTPBasic()
 settings = get_settings()
 
+# Default password hash for development (password: "dev-password-change-me")
+# In production, set ADMIN_PASSWORD_HASH environment variable
+DEV_PASSWORD_HASH = "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/X4.VTtYn/WNnBOAHy"
 
-def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
-    """Verify admin credentials."""
+
+def verify_admin(credentials: HTTPBasicCredentials = Depends(security)) -> str:
+    """
+    Verify admin credentials using secure password comparison.
+
+    Uses bcrypt for password verification to prevent timing attacks
+    and ensure secure password storage.
+
+    Returns:
+        Admin username if authentication successful
+
+    Raises:
+        HTTPException: 401 if credentials are invalid
+    """
+    # Use timing-safe comparison for username
     correct_username = secrets.compare_digest(
-        credentials.username, settings.admin_username
+        credentials.username.encode("utf-8"),
+        settings.admin_username.encode("utf-8")
     )
-    correct_password = secrets.compare_digest(
-        credentials.password, settings.admin_password
-    )
+
+    # Get password hash - use env var or development default
+    password_hash = settings.admin_password_hash
+    if not password_hash:
+        if settings.is_production:
+            logger.error("ADMIN_PASSWORD_HASH not set in production environment")
+            raise HTTPException(
+                status_code=500,
+                detail="Server configuration error",
+            )
+        # Use development default (password: "dev-password-change-me")
+        password_hash = DEV_PASSWORD_HASH
+        logger.warning("Using development default password. Set ADMIN_PASSWORD_HASH in production.")
+
+    # Verify password using bcrypt (timing-attack resistant)
+    correct_password = verify_password(credentials.password, password_hash)
 
     if not (correct_username and correct_password):
+        logger.warning(f"Failed admin login attempt for user: {credentials.username}")
         raise HTTPException(
             status_code=401,
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Basic"},
         )
 
+    logger.info(f"Admin login successful: {credentials.username}")
     return credentials.username
 
 
