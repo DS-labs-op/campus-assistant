@@ -1,0 +1,37 @@
+# =============================================================================
+# Campus Assistant - Development Dependencies
+# =============================================================================
+# Install with: pip install -r requirements-dev.txt
+# This includes all production dependencies plus dev/test tools
+# =============================================================================
+
+# Include production dependencies
+-r requirements.txt
+
+# Testing
+pytest==8.3.4
+pytest-asyncio==0.25.2
+pytest-cov==6.0.0
+pytest-mock==3.14.0
+httpx==0.28.1
+factory-boy==3.3.1
+faker==33.1.0
+
+# Type checking
+mypy==1.14.1
+types-passlib==1.7.7.20240819
+
+# Linting and formatting
+ruff==0.8.6
+black==24.10.0
+isort==5.13.2
+
+# Pre-commit hooks
+pre-commit==4.0.1
+
+# Security scanning
+bandit==1.8.0
+
+# Documentation
+mkdocs==1.6.1
+mkdocs-material==9.5.49
