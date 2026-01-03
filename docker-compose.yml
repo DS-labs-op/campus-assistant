@@ -1,38 +1,118 @@
+# =============================================================================
+# Campus Assistant - Docker Compose Configuration
+# =============================================================================
+# Local development: docker-compose up --build
+# Production: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+# =============================================================================
+
 version: '3.8'
 
 services:
+  # ===========================================
+  # PostgreSQL Database (Production-ready)
+  # ===========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: campus-assistant-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-campus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-campus_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-campus_assistant}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-campus}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===========================================
+  # Backend API (FastAPI)
+  # ===========================================
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: campus-assistant-api
+    restart: unless-stopped
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=sqlite+aiosqlite:///./data/chatbot.db
+      # Database
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-campus}:${POSTGRES_PASSWORD:-campus_dev_password}@postgres:5432/${POSTGRES_DB:-campus_assistant}
+      # Application
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
+      - DEBUG=${DEBUG:-false}
+      # LLM
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - LLM_PROVIDER=gemini
+      - LLM_PROVIDER=${LLM_PROVIDER:-gemini}
+      - LLM_MODEL=${LLM_MODEL:-gemini-2.0-flash}
+      # Admin (use hashed password in production)
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH}
+      # CORS
       - CORS_ORIGINS=http://localhost:3000,http://frontend:3000
+      # Vector DB
+      - CHROMA_PERSIST_DIRECTORY=/app/data/chroma
+      # Logging
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_FORMAT=${LOG_FORMAT:-json}
+      - SENTRY_DSN=${SENTRY_DSN}
     volumes:
-      - ./backend/data:/app/data
-      - ./backend/documents:/app/documents
-    restart: unless-stopped
+      - backend_data:/app/data
+      - backend_documents:/app/documents
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
 
+  # ===========================================
+  # Frontend (Next.js)
+  # ===========================================
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    container_name: campus-assistant-web
+    restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NODE_ENV=production
     depends_on:
-      - backend
-    restart: unless-stopped
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
+# ===========================================
+# Named Volumes (Persistent Storage)
+# ===========================================
 volumes:
+  postgres_data:
+    name: campus-assistant-postgres
   backend_data:
+    name: campus-assistant-data
+  backend_documents:
+    name: campus-assistant-documents
+
+# ===========================================
+# Networks
+# ===========================================
+networks:
+  default:
+    name: campus-assistant-network
