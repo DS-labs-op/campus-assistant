@@ -13,7 +13,7 @@ services:
       - key: DEBUG
         value: false
       - key: CORS_ORIGINS
-        value: https://campus-assistant-frontend.vercel.app
+        value: https://campus-assistant-dslabs.vercel.app
       - key: LOG_LEVEL
         value: INFO
       - key: LOG_FILE
